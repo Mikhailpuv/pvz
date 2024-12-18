@@ -1,0 +1,9 @@
+"peashooter",45,5,10,100
+"sunflower",45,35,10,50
+"cherrybomb",90,2,10,150
+"wallnut",90,1,200,50
+"potatomine",90,130,10,25
+"snow_peashooter",45,5,10,175
+"chomper",45,130,10,150
+"repeater",45,5,10,200
+"shovel",0,0,0,0
