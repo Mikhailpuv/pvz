@@ -1,6 +1,5 @@
 class Zombie: #характеристики зомби
     allobjects=[]
-    
     def __init__(self,hp,pole,speed,x,y,head):
         self.hp=hp
         self.pole=pole
@@ -9,7 +8,6 @@ class Zombie: #характеристики зомби
         self.y=y
         self.head=head
         Zombie.allobjects.append(self)
-        
     def collision(self):#зомби ходьба
         domove=1
         for i in Plants.allobjects:
