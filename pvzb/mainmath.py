@@ -4,34 +4,26 @@ def draw(root,plants,zombie,projectile,sun,inventory,x0):#взятие изоб�
     for i in plants:
         if i.hp>0:
             pyglet.resource.image(f"sprites/{i.type}.png").blit(x0+60*(i.x),60*(i.y-1))
-            #pyglet.shapes.Rectangle(x0+60*i.x,60*(i.y-1),60,60,color=(255,255,255)).draw()
-            #pyglet.shapes.Rectangle(x0+60*i.x+1,60*(i.y-1)+1,58,60,color=(50,255,30)).draw()
 
     for i in zombie:
         if i.hp>0:
             pyglet.resource.image(f"sprites/{i.head}.png").blit(x0+60*(i.x+1),60*(i.y-1))
-            #pyglet.shapes.Rectangle(x0+60*(i.x+1),60*(i.y-1),30,60,color=(255,255,255)).draw()
-            #pyglet.shapes.Rectangle(x0+60*(i.x+1)+1,60*(i.y-1)+1,28,60,color=(255,50,30)).draw()
 
     for i in projectile:
         pyglet.resource.image(f"sprites/{i.prop}.png").blit(x0+60*(i.x+1),60*(i.y-1))
-        #pyglet.shapes.Rectangle(x0+60*(i.x+1),60*(i.y-1)+15,10,30,color=(255,255,255)).draw()
-        #pyglet.shapes.Rectangle(x0+60*(i.x+1)+1,60*(i.y-1)+16,8,28,color=(50,50,30)).draw()
 
     for i in sun:
         pyglet.resource.image(f"sprites/sun.png").blit(x0+60*i.x,60*(i.y-1))
-        #pyglet.shapes.Rectangle(x0+60*i.x,60*(i.y-1),10,20,color=(255, 255, 255)).draw()
-        #pyglet.shapes.Rectangle(x0+60*i.x+1,60*(i.y-1)+1,8,18,color=(255, 255, 0)).draw()
     n=0
 
     for i in inventory:
-        if i.ticks==i.trigger and classes.inventory.sun>=i.cost:
+        if i.ticks==i.trigger and classes.Inventory.sun>=i.cost:
             pyglet.resource.image(f"sprites/{i.type}_ready.png").blit(40*n, root.height-60)
         else:
             pyglet.resource.image(f"sprites/{i.type}_not_ready.png").blit(40*n, root.height-60)
         n+=1
     pyglet.resource.image(f"sprites/sun.png").blit(40*n, root.height-60)
-    pyglet.text.Label(f"{classes.inventory.sun}",x=40*n,y=root.height-60).draw()
+    pyglet.text.Label(f"{classes.Inventory.sun}",x=40*n,y=root.height-60).draw()
 
 def maincycle(root,plants,zombie,projectile,sun,inventory,ticks):
     if ticks%15==0: #частота спавна солнц
@@ -75,15 +67,15 @@ def checkings(root,x,y,sun,inventory,x0,chosen): #прибавление сол�
         for i in sun:
             if int(x*10) in range(int(i.x*10)*60+x0,x0+100+int(i.x*10)*60):
                 if int(y*10) in range(int((i.y-1)*10)*60,int((i.y-1)*10)*60+200):
-                    classes.inventory.sun+=25
+                    classes.Inventory.sun+=25
                     i.ticks=300
                     break
-        for i in range(0,len(classes.inventory.allobjects)):
+        for i in range(0,len(classes.Inventory.allobjects)):
             if x in range(i*40,i*40+40):
                 if int(y) in range(root.height-60,root.height):
-                    if classes.inventory.allobjects[i].cost<=classes.inventory.sun:
-                        if classes.inventory.allobjects[i].ticks==classes.inventory.allobjects[i].trigger:
-                            chosen=classes.inventory.allobjects[i]
+                    if classes.Inventory.allobjects[i].cost<=classes.Inventory.sun:
+                        if classes.Inventory.allobjects[i].ticks==classes.Inventory.allobjects[i].trigger:
+                            chosen=classes.Inventory.allobjects[i]
                             return chosen
         chosen=""
         return chosen
@@ -92,15 +84,15 @@ def checkings(root,x,y,sun,inventory,x0,chosen): #прибавление сол�
         if xp<8:
             yp=y//60+1
             if chosen.type!="shovel":
-                for i in classes.plants.allobjects:
+                for i in classes.Plants.allobjects:
                     if i.x==xp:
                         if i.y==yp:
                             return ""
-                classes.plants(chosen.type,chosen.triggerforplant,chosen.hp,xp,yp)
-                classes.inventory.sun-=chosen.cost
+                classes.Plants(chosen.type,chosen.triggerforplant,chosen.hp,xp,yp)
+                classes.Inventory.sun-=chosen.cost
                 chosen.ticks=0
             else:
-                for i in classes.plants.allobjects:
+                for i in classes.Plants.allobjects:
                     if i.x==xp:
                         if i.y==yp:
                             i.hp=0
@@ -116,10 +108,10 @@ def releaseinventory(): #характеристики инвенторя
             balances[i]=balances[i][:-1]
     for i in range(len(balances)):
         a=balances[i].split(",")
-        classes.inventory(int(a[1]),a[0][1:-1],int(a[2]),int(a[3]),int(a[4]))
+        classes.Inventory(int(a[1]),a[0][1:-1],int(a[2]),int(a[3]),int(a[4]))
     balancefile.close()
     for i in range(1,6):
-        classes.plants("lawnmower",1,1,-1,i)
+        classes.Plants("lawnmower",1,1,-1,i)
 
 def sunspawn():#отвечает за место спавна солнц
     x=random.randint(0,70)
@@ -127,7 +119,7 @@ def sunspawn():#отвечает за место спавна солнц
     dy=random.randint(0,50)
     x=x/10
     dy=dy/10
-    classes.sun(x,y,dy)
+    classes.Sun(x,y,dy)
 
 def zombiespawn(): #отвечает за место спавна зомби
     x=9
@@ -138,4 +130,4 @@ def zombiespawn(): #отвечает за место спавна зомби
         pole=random.randint(0,1)
     hp=50+30*head
     speed=0.2+0.2*pole
-    classes.zombie(hp,pole,speed,x,y,head)
+    classes.Zombie(hp,pole,speed,x,y,head)

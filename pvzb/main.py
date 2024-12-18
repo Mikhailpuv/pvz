@@ -11,33 +11,23 @@ chosen=""
 def on_draw(): #сбор всего вместе и запуск
     global tick,x0,ticks
     root.clear()
-    mainmath.draw(root,classes.plants.allobjects,
-                       classes.zombie.allobjects,
-                       classes.projectile.allobjects,
-                       classes.sun.allobjects,
-                       classes.inventory.allobjects,x0)
+    mainmath.draw(root,classes.Plants.allobjects,
+                       classes.Zombie.allobjects,
+                       classes.Projectile.allobjects,
+                       classes.Sun.allobjects,
+                       classes.Inventory.allobjects,x0)
     a=time.time()
     if a-tick>=0.3:
         tick=a
         ticks+=1
-        mainmath.maincycle(root,classes.plants.allobjects,
-                       classes.zombie.allobjects,
-                       classes.projectile.allobjects,
-                       classes.sun.allobjects,
-                       classes.inventory.allobjects,ticks)
+        mainmath.maincycle(root,classes.Plants.allobjects,
+                       classes.Zombie.allobjects,
+                       classes.Projectile.allobjects,
+                       classes.Sun.allobjects,
+                       classes.Inventory.allobjects,ticks)
 @root.event
 
 def on_mouse_press(x, y, button, modifiers):# работа мышки
     global chosen
-    chosen=mainmath.checkings(root,x,y,classes.sun.allobjects,classes.inventory,x0*10,chosen)
+    chosen=mainmath.checkings(root,x,y,classes.Sun.allobjects,classes.Inventory,x0*10,chosen)
 pyglet.app.run()
-#for i in allplants:
-#    if i.tick==i.trigger:
-#        i.live()
-#        i.tick=0
-#        i.function()
-#for i in allzombies:
-#    i.live()
-#    i.collision()
-#    i.move()
-#for i in inventory:
